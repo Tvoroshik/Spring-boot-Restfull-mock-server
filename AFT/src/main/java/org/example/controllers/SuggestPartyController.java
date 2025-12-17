@@ -53,10 +53,7 @@ public class SuggestPartyController {
         // Получаем текущие данные из массива по счетчику
         PartyData currentData = partyDataList.get(counter.getAndIncrement() % partyDataList.size());
 
-        String jsonResponse = "{\n" +
-                "  \"query\": \"5047155545\",\n" +
-                "}";
-
+        String jsonResponse = "{\"response\": \"hello\"}";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
