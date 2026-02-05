@@ -15,6 +15,9 @@ public class EmployeeController {
     @Value("${app.delay.Employee:0}")
     private long Employee_delay;
 
+    // Глобальная переменная для хранения последнего запрошенного username
+    private String lastRequestedUsername;
+
     // JSON шаблон для ответа
     private static final String DEFAULT_JSON = """
         {
@@ -32,9 +35,12 @@ public class EmployeeController {
     )
     public String getEmployee(@PathVariable String username) {
         try {
+            // Сохраняем username в глобальную переменную
+            this.lastRequestedUsername = username;
 
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(Employee_delay);
+
             // Создаем ObjectMapper для работы с JSON
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -47,9 +53,6 @@ public class EmployeeController {
             // Добавляем новое значение для админа
             jsonNode.put("customAdminValue", "Новое значение для админа " + username);
 
-            // Можно добавить другие поля по необходимости
-            // jsonNode.put("additionalField", "любое значение");
-
             // Возвращаем JSON строку
             return objectMapper.writeValueAsString(jsonNode);
 
@@ -61,5 +64,10 @@ public class EmployeeController {
                 }
             """.formatted(e.getMessage());
         }
+    }
+
+    // Опционально: метод для получения сохранённого username (если нужен доступ извне)
+    public String getLastRequestedUsername() {
+        return lastRequestedUsername;
     }
 }
