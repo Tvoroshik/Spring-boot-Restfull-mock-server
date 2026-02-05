@@ -12,7 +12,7 @@ public class FindLimitFromBindingsController {
     private static final Logger logger = LoggerFactory.getLogger(FindLimitFromBindingsController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay.health-check:0}")
+    @Value("${app.delay_FindLimitFromBindings:0}")
     private long delay_FindLimitFromBindings;
 
     @GetMapping("/health")

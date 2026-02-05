@@ -12,7 +12,7 @@ public class DealDeleteController {
     private static final Logger logger = LoggerFactory.getLogger(DealDeleteController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay.health-check:0}")
+    @Value("${app.delay_DealDelete:0}")
     private long delay_DealDelete;
 
     @GetMapping("/health")

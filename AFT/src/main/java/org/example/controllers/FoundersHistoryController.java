@@ -12,7 +12,7 @@ public class FoundersHistoryController {
     private static final Logger logger = LoggerFactory.getLogger(FoundersHistoryController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay.health-check:0}")
+    @Value("${app.delay_FoundersHistory:0}")
     private long delay_FoundersHistory;
 
     @GetMapping("/health")

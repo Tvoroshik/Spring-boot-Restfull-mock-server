@@ -12,7 +12,7 @@ public class DealNumbertypeElGARANTOController {
     private static final Logger logger = LoggerFactory.getLogger(DealNumbertypeElGARANTOController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay.health-check:0}")
+    @Value("${app.delay_DealNumbertypeElGARANTO:0}")
     private long delay_DealNumbertypeElGARANTO;
 
     @GetMapping("/health")

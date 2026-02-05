@@ -12,7 +12,7 @@ public class DocumentGenerateController {
     private static final Logger logger = LoggerFactory.getLogger(DocumentGenerateController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay.health-check:0}")
+    @Value("${app.delay_DocumentGenerate:0}")
     private long delay_DocumentGenerate;
 
     @GetMapping("/health")
