@@ -1,4 +1,4 @@
-package com.example.yourprojectname; // Убедитесь, что пакет соответствует вашему проекту
+package org.example.yourprojectname; // Убедитесь, что пакет соответствует вашему проекту
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
