@@ -12,17 +12,40 @@ public class ClmSendPinClientController {
     private static final Logger logger = LoggerFactory.getLogger(ClmSendPinClientController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay.health-check:0}")
+    @Value("${app.delay_ClmSendPinClient:0}")
     private long delay_ClmSendPinClient;
 
-    @GetMapping("/health")
-    public String healthCheck() {
+    @GetMapping("/clm/sendPinClient")
+    public String ClmSendPinClient() {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_ClmSendPinClient);
 
+            // JSON-строка с датой (можно оформить как полноценный JSON, если нужно)
+            String jsonResponse = "\n" +
+                    "    \"pxObjClass\": \"string\",\n" +
+                    "\n" +
+                    "    \"errors\": [\n" +
+                    "\n" +
+                    "      {\n" +
+                    "\n" +
+                    "        \"message\": \"string\",\n" +
+                    "\n" +
+                    "        \"pxObjClass\": \"string\",\n" +
+                    "\n" +
+                    "        \"ID\": \"string\"\n" +
+                    "\n" +
+                    "      }\n" +
+                    "\n" +
+                    "    ],\n" +
+                    "\n" +
+                    "    \"ID\": \"string\"\n" +
+                    "\n" +
+                    "  }";
+
+
             logger.info("Health check request processed successfully (delay: {} ms)", delay_ClmSendPinClient);
-            return "Server is running";
+            return jsonResponse;
 
         } catch (InterruptedException e) {
             logger.error("Error processing health check request", e);

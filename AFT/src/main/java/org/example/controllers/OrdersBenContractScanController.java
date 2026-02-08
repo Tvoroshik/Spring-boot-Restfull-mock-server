@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class OrdersBillComDecreaseReasonController {
+public class OrdersBenContractScanController {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrdersBillComDecreaseReasonController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrdersBenContractScanController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay_OrdersBillComDecreaseReason:0}")
-    private long delay_OrdersBillComDecreaseReason;
+    @Value("${app.delay_OrdersBenContractScan:0}")
+    private long delay_OrdersBenContractScan;
 
-    @GetMapping("/orders/819bfe6d-f580-76cf-bfc2-05139ce597/27q-bill, comDecreaseReason, questionnaire, guaranteeContract, guaranteeContractInLimit, guarantor Company Contract, guarantor PersonContract, guaranteelot, bgScanLot")
-    public String OrdersBillComDecreaseReason() {
+    @GetMapping("/orders/019bd682-11d9-780b-bea9-57231fa2bec5/allGrouped?q=benContractScan")
+    public String OrdersBenContractScan() {
         try {
             // Добавляем задержку (в миллисекундах)
-            Thread.sleep(delay_OrdersBillComDecreaseReason);
+            Thread.sleep(delay_OrdersBenContractScan);
 
             // Фиксированный JSON-ответ
             String jsonResponse = "[]";

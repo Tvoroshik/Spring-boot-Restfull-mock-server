@@ -4,26 +4,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ClmMaIcV10RestController {
+public class GetAccountsWithReservedBalancedController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClmMaIcV10RestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(GetAccountsWithReservedBalancedController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay_ClmMaIcV10Rest:0}")
-    private long delay_ClmMaIcV10Rest;
+    @Value("${app.delay_GetAccountsWithReservedBalanced:0}")
+    private long delay_GetAccountsWithReservedBalanced;
 
-    @GetMapping("/сlm/api/cases/v10/rest")
-    public String ClmMaIcV10Rest() {
+    @GetMapping("/client/getAccountsWithReservedBalanced?pinEq=UAU2IU")
+    public String getAccountsWithReservedBalanced() {
         try {
             // Добавляем задержку (в миллисекундах)
-            Thread.sleep(delay_ClmMaIcV10Rest);
+            Thread.sleep(delay_GetAccountsWithReservedBalanced);
 
-            // JSON-строка с датой (можно оформить как полноценный JSON, если нужно)
-            String jsonResponse = "{}";
+            // Фиксированный JSON-ответ (можно заменить на нужную структуру)
+            String jsonResponse = "15000000.75";
 
             return jsonResponse;
 

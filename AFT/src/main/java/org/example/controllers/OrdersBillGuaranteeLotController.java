@@ -15,19 +15,21 @@ public class OrdersBillGuaranteeLotController {
     @Value("${app.delay_OrdersBillGuaranteeLot:0}")
     private long delay_OrdersBillGuaranteeLot;
 
-    @GetMapping("/health")
-    public String healthCheck() {
+    @GetMapping( "/orders/8190fe6d-f58b-76cf-bfc2-05139ce597427g-bill,guaranteeLot draft, guaranteelot, guaranteeContract, guaranteeContractinLimit,questionnaire, guarantorCompanyContract guarantorPersonContract")
+    public String OrdersBillGuaranteeLot() {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_OrdersBillGuaranteeLot);
 
-            logger.info("Health check request processed successfully (delay: {} ms)", delay_OrdersBillGuaranteeLot);
-            return "Server is running";
+            // Фиксированный JSON-ответ
+            String jsonResponse = "[]";
+
+            return jsonResponse;
 
         } catch (InterruptedException e) {
-            logger.error("Error processing health check request", e);
+            logger.error("Error processing request", e);
             Thread.currentThread().interrupt();
-            return "Error processing request";
+            return "{\"error\": \"Error processing request\"}";
         }
     }
 }

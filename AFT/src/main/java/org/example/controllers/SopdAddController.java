@@ -3,7 +3,8 @@ package org.example.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,19 +16,21 @@ public class SopdAddController {
     @Value("${app.delay_SopdAdd:0}")
     private long delay_SopdAdd;
 
-    @GetMapping("/health")
-    public String healthCheck() {
+    @PostMapping("/sopd/add")
+    public String SopdAdd() {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_SopdAdd);
 
-            logger.info("Health check request processed successfully (delay: {} ms)", delay_SopdAdd);
-            return "Server is running";
+            // Фиксированный JSON-ответ
+            String jsonResponse = "1852274272";
+
+            return jsonResponse;
 
         } catch (InterruptedException e) {
-            logger.error("Error processing health check request", e);
+            logger.error("Error processing request", e);
             Thread.currentThread().interrupt();
-            return "Error processing request";
+            return "{\"error\": \"Error processing request\"}";
         }
     }
 }

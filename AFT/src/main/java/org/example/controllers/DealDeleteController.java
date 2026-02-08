@@ -3,7 +3,7 @@ package org.example.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,19 +15,24 @@ public class DealDeleteController {
     @Value("${app.delay_DealDelete:0}")
     private long delay_DealDelete;
 
-    @GetMapping("/health")
-    public String healthCheck() {
+    @PostMapping("/deal/delete")
+    public String dealDelete() {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_DealDelete);
 
-            logger.info("Health check request processed successfully (delay: {} ms)", delay_DealDelete);
-            return "Server is running";
+            // JSON-ответ
+            String jsonResponse = "{\n" +
+                    "  \"dealId\": 123,\n" +
+                    "  \"dealStateId\": 124\n" +
+                    "}";
+
+            return jsonResponse;
 
         } catch (InterruptedException e) {
-            logger.error("Error processing health check request", e);
+            logger.error("Error processing request", e);
             Thread.currentThread().interrupt();
-            return "Error processing request";
+            return "\"Error processing request\"";
         }
     }
 }

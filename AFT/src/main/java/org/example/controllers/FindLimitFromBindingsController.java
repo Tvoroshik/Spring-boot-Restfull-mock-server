@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,19 +16,22 @@ public class FindLimitFromBindingsController {
     @Value("${app.delay_FindLimitFromBindings:0}")
     private long delay_FindLimitFromBindings;
 
-    @GetMapping("/health")
-    public String healthCheck() {
+    @GetMapping("/limit/FindLimitsFromBindings")
+    public String findLimitFromBindings(@RequestParam(name = "inn", required = false) String inn) {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_FindLimitFromBindings);
 
-            logger.info("Health check request processed successfully (delay: {} ms)", delay_FindLimitFromBindings);
-            return "Server is running";
+            // Фиксированный JSON-ответ (можно заменить на нужную структуру)
+            String jsonResponse = "{}";
+
+            logger.info("Request processed for inn={}, returning fixed response", inn);
+            return jsonResponse;
 
         } catch (InterruptedException e) {
-            logger.error("Error processing health check request", e);
+            logger.error("Error processing request", e);
             Thread.currentThread().interrupt();
-            return "Error processing request";
+            return "\"Error processing request\"";
         }
     }
 }

@@ -8,23 +8,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ClmMaIcV10RestController {
+public class GetGroupsController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClmMaIcV10RestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(GetGroupsController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay_ClmMaIcV10Rest:0}")
-    private long delay_ClmMaIcV10Rest;
+    @Value("${app.delay_GetGroups:0}")
+    private long delay_GetGroups;
 
-    @GetMapping("/сlm/api/cases/v10/rest")
-    public String ClmMaIcV10Rest() {
+    @GetMapping("/getGroups")
+    public String getGroups(@RequestParam(name = "inn", required = false) String inn) {
         try {
             // Добавляем задержку (в миллисекундах)
-            Thread.sleep(delay_ClmMaIcV10Rest);
+            Thread.sleep(delay_GetGroups);
 
-            // JSON-строка с датой (можно оформить как полноценный JSON, если нужно)
-            String jsonResponse = "{}";
+            // Фиксированный JSON-ответ (пример структуры)
+            String jsonResponse = "{\n" +
+                    "    \"group\": []\n" +
+                    "}";
 
+            logger.info("Request processed for inn={}, returning fixed response", inn);
             return jsonResponse;
 
         } catch (InterruptedException e) {

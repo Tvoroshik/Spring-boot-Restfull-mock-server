@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class OrdersBillComDecreaseReasonController {
+public class OrdersOwnerIdInitiatorController {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrdersBillComDecreaseReasonController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrdersOwnerIdInitiatorController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay_OrdersBillComDecreaseReason:0}")
-    private long delay_OrdersBillComDecreaseReason;
+    @Value("${app.delay_OrdersOwnerIdInitiator:0}")
+    private long delay_OrdersOwnerIdInitiator;
 
-    @GetMapping("/orders/819bfe6d-f580-76cf-bfc2-05139ce597/27q-bill, comDecreaseReason, questionnaire, guaranteeContract, guaranteeContractInLimit, guarantor Company Contract, guarantor PersonContract, guaranteelot, bgScanLot")
-    public String OrdersBillComDecreaseReason() {
+    @GetMapping("/orders/819bfe6d-f58b-76cf-bfc2-05135ce597423owner_id-initiaetoriq-bill, guaranteeLot_draft, guaranteeLot, guaranteeContract, guaranteeContractIntimit, questionnaire, guarantorCompany Contract, guarantorlersonContract")
+    public String OrdersOwnerIdInitiator() {
         try {
             // Добавляем задержку (в миллисекундах)
-            Thread.sleep(delay_OrdersBillComDecreaseReason);
+            Thread.sleep(delay_OrdersOwnerIdInitiator);
 
             // Фиксированный JSON-ответ
             String jsonResponse = "[]";

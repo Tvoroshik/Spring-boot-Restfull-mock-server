@@ -8,23 +8,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ClmMaIcV10RestController {
+public class GetAccountsWithSCController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClmMaIcV10RestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(GetAccountsWithSCController.class);
 
     // Читаем значение задержки из application.properties
-    @Value("${app.delay_ClmMaIcV10Rest:0}")
-    private long delay_ClmMaIcV10Rest;
+    @Value("${app.delay_GetAccountsWithSC:0}")
+    private long delay_GetAccountsWithSC;
 
-    @GetMapping("/сlm/api/cases/v10/rest")
-    public String ClmMaIcV10Rest() {
+    @GetMapping("/client/getAccountsWithSC")
+    public String getAccountsWithSC(@RequestParam(name = "pinEq", required = false) String pinEq) {
         try {
             // Добавляем задержку (в миллисекундах)
-            Thread.sleep(delay_ClmMaIcV10Rest);
+            Thread.sleep(delay_GetAccountsWithSC);
 
-            // JSON-строка с датой (можно оформить как полноценный JSON, если нужно)
+            // Фиксированный JSON-ответ (пример структуры)
             String jsonResponse = "{}";
 
+            logger.info("Request processed for pinEq={}, returning fixed response", pinEq);
             return jsonResponse;
 
         } catch (InterruptedException e) {

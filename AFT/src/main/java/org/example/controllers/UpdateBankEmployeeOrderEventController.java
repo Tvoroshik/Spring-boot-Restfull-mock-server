@@ -4,7 +4,7 @@ package org.example.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,19 +16,21 @@ public class UpdateBankEmployeeOrderEventController {
     @Value("${app.delay_UpdateBankEmployeeOrderEvent:0}")
     private long delay_UpdateBankEmployeeOrderEvent;
 
-    @GetMapping("/health")
-    public String healthCheck() {
+    @PostMapping("/internal/event/updateBankEmployeeOrderEvent")
+    public String UpdateBankEmployeeOrderEvent() {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_UpdateBankEmployeeOrderEvent);
 
-            logger.info("Health check request processed successfully (delay: {} ms)", delay_UpdateBankEmployeeOrderEvent);
-            return "Server is running";
+            // Фиксированный JSON-ответ
+            String jsonResponse = "{}";
+
+            return jsonResponse;
 
         } catch (InterruptedException e) {
-            logger.error("Error processing health check request", e);
+            logger.error("Error processing request", e);
             Thread.currentThread().interrupt();
-            return "Error processing request";
+            return "{\"error\": \"Error processing request\"}";
         }
     }
 }

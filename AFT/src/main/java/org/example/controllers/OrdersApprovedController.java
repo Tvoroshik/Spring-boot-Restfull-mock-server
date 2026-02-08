@@ -15,19 +15,21 @@ public class OrdersApprovedController {
     @Value("${app.delay_OrdersApproved:0}")
     private long delay_OrdersApproved;
 
-    @GetMapping("/health")
-    public String healthCheck() {
+    @GetMapping("/orders/019bfe6d-f58b-76cf-bfc2-05139ce597f2?q=bgApproved")
+    public String OrdersApproved() {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_OrdersApproved);
 
-            logger.info("Health check request processed successfully (delay: {} ms)", delay_OrdersApproved);
-            return "Server is running";
+            // Фиксированный JSON-ответ
+            String jsonResponse = "[]";
+
+            return jsonResponse;
 
         } catch (InterruptedException e) {
-            logger.error("Error processing health check request", e);
+            logger.error("Error processing request", e);
             Thread.currentThread().interrupt();
-            return "Error processing request";
+            return "{\"error\": \"Error processing request\"}";
         }
     }
 }
