@@ -1,73 +1,42 @@
 package org.example.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
 public class EmployeeController {
 
-    @Value("${app.delay.Employee:0}")
-    private long Employee_delay;
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
-    // Глобальная переменная для хранения последнего запрошенного username
-    private String lastRequestedUsername;
+    // Читаем значение задержки из application.properties
+    @Value("${app.delay_Employee:0}")
+    private long delay_Employee;
 
-    // JSON шаблон для ответа
-    private static final String DEFAULT_JSON = """
-        {
-            "id": "19787",
-            "name": "admin11",
-            "orgUnitId": "50651132",
-            "orgUnitName": "Отдел прямых продаж",
-            "manager": false
-        }
-    """;
-
-    @GetMapping(
-            value = "/employee/username={username}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public String getEmployee(@PathVariable String username) {
+    @GetMapping("/employee?Username=camundaadmin")
+    public String Employee() {
         try {
-            // Сохраняем username в глобальную переменную
-            this.lastRequestedUsername = username;
-
             // Добавляем задержку (в миллисекундах)
-            Thread.sleep(Employee_delay);
+            Thread.sleep(delay_Employee);
 
-            // Создаем ObjectMapper для работы с JSON
-            ObjectMapper objectMapper = new ObjectMapper();
+            // Фиксированный JSON-ответ
+            String jsonResponse = "{" +
+                    "\"id \": \"19787\",\"name\":\"camundaadmin\", " +
+                    "\"orgUnitId\":\"50651132\", " +
+                    "\"orgUnitName\": \"Отдел прямых продаж\", " +
+                    "\"manager\": \"false\"}";
 
-            // Парсим шаблон JSON
-            ObjectNode jsonNode = (ObjectNode) objectMapper.readTree(DEFAULT_JSON);
+            return jsonResponse;
 
-            // Обновляем имя пользователя
-            jsonNode.put("name", username);
-
-            // Добавляем новое значение для админа
-            jsonNode.put("customAdminValue", "Новое значение для админа " + username);
-
-            // Возвращаем JSON строку
-            return objectMapper.writeValueAsString(jsonNode);
-
-        } catch (Exception e) {
-            return """
-                {
-                    "error": "Произошла ошибка при обработке запроса",
-                    "message": "%s"
-                }
-            """.formatted(e.getMessage());
+        } catch (InterruptedException e) {
+            logger.error("Error processing request", e);
+            Thread.currentThread().interrupt();
+            return "{\"error\": \"Error processing request\"}";
         }
-    }
-
-    // Опционально: метод для получения сохранённого username (если нужен доступ извне)
-    public String getLastRequestedUsername() {
-        return lastRequestedUsername;
     }
 }
+

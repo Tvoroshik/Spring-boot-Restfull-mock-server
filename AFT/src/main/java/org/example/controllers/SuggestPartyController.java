@@ -30,7 +30,7 @@ public class SuggestPartyController {
         }
 
         // Проверяем содержимое запроса
-        if (requestBody.contains("\"query\":\"OOO\"")) {
+        if (requestBody.contains("\"q\":\"000\"")) {
             String jsonResponse = "{\"suggestions\": [\r\n" +
                     "        {\r\n" +
                     "            \"value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
@@ -1114,12 +1114,12 @@ public class SuggestPartyController {
                     "}";
             return ResponseEntity.ok(jsonResponse);
         }
-        else if (requestBody.contains("\"query\":\"Любой ИНН\"")) {
+        else if (requestBody.contains("\"q\":\"Любой ИНН\"")) {
             // Формируем запрос к внешнему API
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            String externalRequest = "{\"query\": \"Любой ИНН\"}";
+            String externalRequest = "{\"q\": \"Любой ИНН\"}";
             HttpEntity<String> entity = new HttpEntity<>(externalRequest, headers);
 
             try {
