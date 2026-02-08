@@ -29,8 +29,7 @@ public class VerifyController {
                     "\"certDetails\": [],\n" +
                     "\"signDetails\": [],\n" +
                     "\"signatureDetails\": \"AsnlException: ASN.1 decode error @ offset 0:\\nTag match failed: expected [UNIVERSAL 16], parsed [UNIVERSAL 5]\"\n" +
-                    "}" +
-                    "";
+                    "}";
 
             return jsonResponse;
 

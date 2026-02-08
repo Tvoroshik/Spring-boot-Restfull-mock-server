@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,19 +16,25 @@ public class EbgDealController {
     @Value("${app.delay.health-check:0}")
     private long delay_EbgDeal;
 
-    @GetMapping("/health")
-    public String healthCheck() {
+    @PutMapping("/ebg/deal")
+    public String EbgDeal() {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_EbgDeal);
 
-            logger.info("Health check request processed successfully (delay: {} ms)", delay_EbgDeal);
-            return "Server is running";
+            // JSON-ответ
+            String jsonResponse = "{\n" +
+                    "    \"dealId\": 0,\n" +
+                    "    \"dealStateId\": 0\n" +
+                    "}";
+
+            return jsonResponse;
 
         } catch (InterruptedException e) {
-            logger.error("Error processing health check request", e);
+            logger.error("Error processing request", e);
             Thread.currentThread().interrupt();
-            return "Error processing request";
+            return "\"Error processing request\"";
         }
     }
 }
+

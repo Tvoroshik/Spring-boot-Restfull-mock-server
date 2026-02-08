@@ -20,7 +20,7 @@ public class CreateorUpdateBeneficaryfromMDMController {
     @Value("${app.delay_CreateorUpdateBeneficaryfromMDM:0}")
     private long delay_CreateorUpdateBeneficaryfromMDM;
 
-    @GetMapping("/health")
+    @GetMapping("/createorUpdateBeneficaryfromMDM")
     public String createorUpdateBeneficaryfromMDM() {
         try {
             // Добавляем задержку (в миллисекундах)
