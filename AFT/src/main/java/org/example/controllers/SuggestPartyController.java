@@ -29,7 +29,7 @@ public class SuggestPartyController {
             Thread.sleep(delay_SuggestOktmo);
 
             // Фиксированный JSON-ответ
-            String jsonResponse = "{\"suggestions\": [\r\n" +
+            String jsonResponse = "[\r\n" +
                     "        {\r\n" +
                     "            \"value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
                     "            \"unrestricted_value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
@@ -1108,8 +1108,7 @@ public class SuggestPartyController {
                     "                \"employee_count\": null\r\n" +
                     "            }\r\n" +
                     "        }\r\n" +
-                    "    ]\r\n" +
-                    "}";
+                    "]";
 
             return jsonResponse;
 
