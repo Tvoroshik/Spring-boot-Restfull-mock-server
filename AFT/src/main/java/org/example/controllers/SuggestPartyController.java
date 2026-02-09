@@ -40,15 +40,15 @@ public class SuggestPartyController {
             String jsonResponse =
                     "{\"suggestions\": [\r\n" +
                             "        {\r\n" +
-                            "            \"value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
-                            "            \"unrestricted_value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
+                            "            \"value\": \"ООО \"ТЕХНО-М\"\",\r\n" +
+                            "            \"unrestricted_value\": \"ООО \"ТЕХНО-М\"\",\r\n" +
                             "            \"data\": {\r\n" +
                             "                \"kpp\": \"644301001\",\r\n" +
                             "                \"inn\": \"6443021579\",\r\n" +
                             "                \"ogrn\": \"1146449000114\",\r\n" +
                              "\"name\": {\r\n" +
                             "                    \"full_with_opf\": \"ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \\\"ТЕХНО-М\\\"\",\r\n" +
-                            "                    \"short_with_opf\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
+                            "                    \"short_with_opf\": \"ООО \"ТЕХНО-М\"\",\r\n" +
                             "                    \"full\": \"ТЕХНО-М\",\r\n" +
                             "                    \"short\": \"ТЕХНО-М\"\r\n" +
                             "                }\r\n" +
