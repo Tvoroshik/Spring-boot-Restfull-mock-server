@@ -17,7 +17,7 @@ public class SuggestPartyController {
     @Value("${app.delay.suggest.party:0}")
     private long suggest_party_delay;
 
-    @PostMapping ("/common/autocomplete/company?q=111")
+    @PostMapping ("/common/autocomplete/company")
     public String suggest_party() {
         try {
             // Добавляем задержку (в миллисекундах)
