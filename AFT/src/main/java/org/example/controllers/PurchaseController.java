@@ -16,7 +16,7 @@ public class PurchaseController {
     @Value("${app.delay_PurchaseController:0}")
     private long delay_PurchaseController;
 
-    @GetMapping("/purchases/purchase?reportId=2&etpId=0848600003321000037")
+    @GetMapping("/purchases/purchase?reportId=2&etpId=0345300046725000253")
     public String Purchase() {
         try {
             // Добавляем задержку (в миллисекундах)
