@@ -16,12 +16,6 @@ public class PassportPassportController {
     @Value("${app.delay_passport:0}")
     private long delayPassport;
 
-    /**
-     * Обрабатывает GET-запрос на /passport
-     * Поддерживает:
-     * - /passport?passport=1234567890
-     * - /passport?passport=111,222
-     */
     @GetMapping("/passport")
     public String PassportPassportRequest(
             @RequestParam(name = "passport", required = false) String passportParam
