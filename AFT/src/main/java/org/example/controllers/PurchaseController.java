@@ -3,6 +3,7 @@ package org.example.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ public class PurchaseController {
     @Value("${app.delay_purchase:0}")
     private long delay_purchase;
 
-    @PostMapping("/api/common/purchases/034530004625000253")
+    @GetMapping("/api/common/purchases/034530004625000253")
     public String Purchase() {
         try {
             // Добавляем задержку (в миллисекундах)
