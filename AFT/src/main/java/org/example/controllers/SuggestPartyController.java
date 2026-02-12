@@ -39,23 +39,31 @@ public class SuggestPartyController {
             // Фиксированный JSON-ответ
             String jsonResponse = """
                     {
-                        "suggestions": [
-                            {
-                                "value": "ООО ТЕХНО-М",
-                                "unrestricted_value": "ООО ТЕХНО-М",
-                                "data": {
-                                    "kpp": "644301001",
-                                    "inn": "6443021579",
-                                    "ogrn": "1146449000114",
-                                    "name": {
-                                        "full_with_opf": "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ ТЕХНО-М",
-                                        "short_with_opf": "ООО ТЕХНО-М",
-                                        "full": "ТЕХНО-М",
-                                        "short": "ТЕХНО-М"
-                                    }
-                                }
-                            }
-                        ]
+                    
+                    "other": [
+                    
+                    {
+                    
+                    "companyTypeRefId": "legalentity",
+                    
+                    "displayName": "ООО \\"ТЕХНО-М\\"",
+                    
+                    "fullName": "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \\"ТЕХНО-М\\"",
+                    
+                    "shortName": "ООО \\"ТЕХНО-М\\"",
+                    
+                    "inn": "6443021579",
+                    
+                    "ogrn": "1146449000114",
+                    
+                    "kpp": "644301001"
+                    
+                    }
+                    
+                    ],
+                    
+                    "error_code": 0
+                    
                     }
                     """;
 
