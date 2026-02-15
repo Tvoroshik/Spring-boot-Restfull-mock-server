@@ -16,21 +16,21 @@ public class OrdersApprovedController {
     @Value("${app.delay_OrdersApproved:0}")
     private long delay_OrdersApproved;
 
-    // Шаблон URL: {orderId} — переменная часть пути
-    // Параметры запроса (q=bgApproved) остаются как есть
-    @GetMapping("/orders/{orderId}")
+    // Шаблон URL: {orderId} — динамическая часть пути
+    // Параметр q=bgApproved остаётся в URL как часть маршрута
+    @GetMapping("/orders/{orderId}?q=bgApproved")
     public String OrdersApproved(@PathVariable String orderId) {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_OrdersApproved);
 
-            // Фиксированный JSON-ответ — всегда пустой массив
+            // Фиксированный JSON-ответ
             String jsonResponse = "[]";
 
             return jsonResponse;
 
         } catch (InterruptedException e) {
-            logger.error("Error processing request", e);
+            logger.error("Error processing request for orderId: {}", orderId, e);
             Thread.currentThread().interrupt();
             return "{\"error\": \"Error processing request\"}";
         }

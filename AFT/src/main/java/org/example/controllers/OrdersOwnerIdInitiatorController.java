@@ -16,23 +16,31 @@ public class OrdersOwnerIdInitiatorController {
     @Value("${app.delay_OrdersOwnerIdInitiator:0}")
     private long delay_OrdersOwnerIdInitiator;
 
-    // Шаблон URL: {orderId} — переменная часть пути
-    // Поддерживаются все параметры запроса (owner_id-initiator, q=...)
-    @GetMapping("/orders/{orderId}")
-    public String OrdersOwnerIdInitiator(@PathVariable String orderId) {
+    // Шаблон URL: {orderId} — динамическая часть пути
+    // Всё после {orderId} сохранено как цельная фиксированная строка
+    @GetMapping("/orders/{orderId}?owner_id-initiaetoriq-bill, guaranteeLot_draft, guaranteeLot, guaranteeContract, guaranteeContractIntimit, questionnaire, guarantorCompany Contract, guarantorlersonContract")
+    public String OrdersOwnerIdInitiator(
+            @PathVariable String orderId
+    ) {
         try {
             // Добавляем задержку (в миллисекундах)
-            Thread.sleep(delay_OrdersOwnerIdInitiator);
+            if (delay_OrdersOwnerIdInitiator > 0) {
+                Thread.sleep(delay_OrdersOwnerIdInitiator);
+            }
 
-            // Фиксированный JSON-ответ — всегда пустой массив
+            // Фиксированный JSON-ответ
             String jsonResponse = "[]";
 
+            logger.info("Successfully processed request for orderId: {}", orderId);
             return jsonResponse;
 
         } catch (InterruptedException e) {
-            logger.error("Error processing request", e);
+            logger.error("Request interrupted for orderId: {}", orderId, e);
             Thread.currentThread().interrupt();
-            return "{\"error\": \"Error processing request\"}";
+            return "{\"error\": \"Request processing interrupted\"}";
+        } catch (Exception e) {
+            logger.error("Unexpected error for orderId: {}", orderId, e);
+            return "{\"error\": \"Internal server error\"}";
         }
     }
 }

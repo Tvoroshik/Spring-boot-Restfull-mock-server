@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,21 +17,24 @@ public class OrdersBgRequestController {
     @Value("${app.delay_OrdersBgRequest:0}")
     private long delay_OrdersBgRequest;
 
-    // Шаблон URL: {orderId} — переменная часть пути
-    // Сохраняем все параметры запроса q=... как в оригинальном URL
-    @GetMapping("/orders/{orderId}")
-    public String OrdersBgRequest(@PathVariable String orderId) {
+    // Шаблон URL: {orderId} — динамическая часть пути
+    // Параметр q поддерживает список значений через запятую
+    @GetMapping("/orders/{orderId}?q=bgRequest,beneficiaryLetter,principalletter,questionnaire,guaranteeContract,guaranteeLot")
+    public String OrdersBgRequest(
+            @PathVariable String orderId,
+            @RequestParam(required = false) String q
+    ) {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_OrdersBgRequest);
 
-            // Фиксированный ответ — строка "1" (не JSON-массив!)
-            String response = "[]";
+            // Фиксированный JSON-ответ
+            String jsonResponse = "[]";
 
-            return response;
+            return jsonResponse;
 
         } catch (InterruptedException e) {
-            logger.error("Error processing request", e);
+            logger.error("Error processing request for orderId: {}, q: {}", orderId, q, e);
             Thread.currentThread().interrupt();
             return "{\"error\": \"Error processing request\"}";
         }

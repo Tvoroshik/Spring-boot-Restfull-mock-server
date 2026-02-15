@@ -24,16 +24,9 @@ public class OrdersBenContractScanController {
      * Пример валидного запроса:
      * GET /orders/12345/allGrouped?q=benContractScan
      */
-    @GetMapping("/orders/{orderId}/allGrouped")
-    public String getOrdersBenContractScan(
-            @PathVariable("orderId") String orderId,
-            @RequestParam("q") String queryParam) {
-
+    @GetMapping("/orders/{orderId}/allGrouped?q=benContractScan")
+    public String getOrdersBenContractScan(@PathVariable String orderId) {
         try {
-            // Проверяем значение параметра q
-            if (queryParam == null || !queryParam.equals("benContractScan")) {
-                return "{\"error\": \"Параметр q должен быть равен 'benContractScan'\"}";
-            }
 
             // Имитируем задержку обработки
             if (delay_OrdersBenContractScan > 0) {

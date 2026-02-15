@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,23 +17,37 @@ public class OrdersComDecreaseReasonController {
     @Value("${app.delay_OrdersComDecreaseReason:0}")
     private long delay_OrdersComDecreaseReason;
 
-    // Шаблон URL: {orderId} — переменная часть пути
-    // Параметр q=comDecreaseReason поддерживается автоматически
-    @GetMapping("/orders/{orderId}")
-    public String OrdersComDecreaseReason(@PathVariable String orderId) {
-        try {
-            // Добавляем задержку (в миллисекундах)
-            Thread.sleep(delay_OrdersComDecreaseReason);
+// Полный URL-шаблон без разбиения: всё после {orderId} — часть пути
+@GetMapping("/orders/{orderId}/comDecreaseReason")
+            public String OrdersComDecreaseReason(
+                    @PathVariable String orderId,
+                    @RequestParam(required = false, name = "q") String q
+    ) {
+                try {
+                    // Проверяем формат orderId (опционально: UUID)
+                    if (!orderId.matches("[0-9a-fA-F\\-]{36}")) {
+                        logger.warn("Invalid orderId format: {}", orderId);
+                        return "{\"error\": \"Invalid orderId format\"}";
+                    }
 
-            // Фиксированный JSON-ответ — всегда пустой массив
-            String jsonResponse = "[]";
+                    // Задержка, если задана
+                    if (delay_OrdersComDecreaseReason > 0) {
+                        Thread.sleep(delay_OrdersComDecreaseReason);
+                    }
 
-            return jsonResponse;
+                    // Фиксированный ответ
+                    String jsonResponse = "[]";
 
-        } catch (InterruptedException e) {
-            logger.error("Error processing request", e);
-            Thread.currentThread().interrupt();
-            return "{\"error\": \"Error processing request\"}";
+                    logger.info("Successfully processed request for orderId: {}, q: {}", orderId, q);
+                    return jsonResponse;
+
+                } catch (InterruptedException e) {
+                    logger.error("Request interrupted for orderId: {}, q: {}", orderId, q, e);
+                    Thread.currentThread().interrupt();
+                    return "{\"error\": \"Request processing interrupted\"}";
+                } catch (Exception e) {
+                    logger.error("Unexpected error for orderId: {}, q: {}", orderId, q, e);
+                    return "{\"error\": \"Internal server error\"}";
+                }
+            }
         }
-    }
-}
