@@ -1,142 +1,256 @@
 package org.example.controllers;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 public class RequestController {
-
-    @Value("${app.delay.Request:0}")
-    private long Request_delay;
-
 
     @PostMapping(
             value = "/req",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<Map<String, Object>>> RequestControllerResponse(
-            @RequestParam String inn,
-            @RequestParam String ogrn
-    ) {
-        try {
-            // Добавляем задержку (в миллисекундах)
-            Thread.sleep(Request_delay);
+    public ResponseEntity<String> handleRequest(
+            @RequestParam(required = false) String inn,
+            @RequestParam(required = false) String ogrn) {
 
-            // Создаем основной список
-            List<Map<String, Object>> responseList = new ArrayList<>();
+        // Фиксированный JSON-ответ (можно изменить на любой нужный)
+        String jsonResponse = """
+                [
+                    {
+                        "inn": "4712017259",
+                        "ogrn": "1024701646243",
+                        "focusHref": "https://focus.kontur.ru/entity?query=1024701646243",
+                        "UL": {
+                            "kpp": "471201001",
+                            "okpo": "05278964",
+                            "okato": "41239501000",
+                            "okfs": "13",
+                            "oktmo": "41639101001",
+                            "okogu": "2300229",
+                            "okopf": "75203",
+                            "opf": "Государственные бюджетные учреждения субъектов Российской Федерации",
+                            "legalName": {
+                                "short": "ГБУЗ ЛО \\"ПРИОЗЕРСКАЯ МБ\\"",
+                                "full": "ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ ЛЕНИНГРАДСКОЙ ОБЛАСТИ \\"ПРИОЗЕРСКАЯ МЕЖРАЙОННАЯ БОЛЬНИЦА\\"",
+                                "readable": "ГБУЗ Ленинградской Области \\"Приозерская Межрайонная Больница\\"",
+                                "date": "2013-12-27"
+                            },
+                            "legalAddress": {
+                                "parsedAddressRF": {
+                                    "zipCode": "188760",
+                                    "kladrCode": "470150010000024",
+                                    "regionCode": "47",
+                                    "regionName": {
+                                        "topoShortName": "обл.",
+                                        "topoFullName": "область",
+                                        "topoValue": "Ленинградская"
+                                    },
+                                    "district": {
+                                        "topoShortName": "р-н",
+                                        "topoFullName": "район",
+                                        "topoValue": "Приозерский"
+                                    },
+                                    "city": {
+                                        "topoShortName": "г.",
+                                        "topoFullName": "город",
+                                        "topoValue": "Приозерск"
+                                    },
+                                    "street": {
+                                        "topoShortName": "ул.",
+                                        "topoFullName": "улица",
+                                        "topoValue": "Калинина"
+                                    },
+                                    "house": {
+                                        "topoShortName": "д.",
+                                        "topoFullName": "дом",
+                                        "topoValue": "35"
+                                    },
+                                    "houseRaw": "Д.35",
+                                    "bulkRaw": "--",
+                                    "flatRaw": "--",
+                                    "oneLineFormatOfAddress": "188760, Ленинградская область, р-н Приозерский, г. Приозерск, ул. Калинина, д. 35"
+                                },
+                                "parsedAddressRFFias": {
+                                    "fiasId": 10274360,
+                                    "fiasGUID": "33cad95e-57e5-47cd-948f-d974e4ac06a4",
+                                    "zipCode": "188760",
+                                    "regionCode": "47",
+                                    "region": {
+                                        "topoShortName": "обл.",
+                                        "topoFullName": "область",
+                                        "topoValue": "Ленинградская"
+                                    },
+                                    "municipalDistrict": {
+                                        "topoShortName": "м.р-н",
+                                        "topoFullName": "муниципальный район",
+                                        "topoValue": "Приозерский"
+                                    },
+                                    "urbanSettlement": {
+                                        "topoShortName": "г.п.",
+                                        "topoFullName": "городское поселение",
+                                        "topoValue": "Приозерское"
+                                    },
+                                    "city": {
+                                        "topoShortName": "г.",
+                                        "topoFullName": "город",
+                                        "topoValue": "Приозерск"
+                                    },
+                                    "street": {
+                                        "topoShortName": "ул.",
+                                        "topoFullName": "улица",
+                                        "topoValue": "Калинина"
+                                    },
+                                    "buildings": [
+                                        {
+                                            "topoShortName": "д.",
+                                            "topoFullName": "дом",
+                                            "topoValue": "35"
+                                        }
+                                    ],
+                                    "isConverted": true,
+                                    "oneLineFormatOfAddressFias": "188760, Ленинградская область, м.р-н Приозерский, г.п. Приозерское, г. Приозерск, ул. Калинина, д. 35"
+                                },
+                                "date": "2016-02-17",
+                                "firstDate": "2002-08-07"
+                            },
+                            "status": {
+                                "statusString": "Действующее"
+                            },
+                            "registrationDate": "1999-12-23",
+                            "heads": [
+                                {
+                                    "fio": "Тарасов Виктор Сергеевич",
+                                    "innfl": "230810744612",
+                                    "position": "Главный врач",
+                                    "date": "2024-09-23",
+                                    "firstDate": "2023-05-23",
+                                    "structuredFio": {
+                                        "firstName": "Виктор",
+                                        "lastName": "Тарасов",
+                                        "middleName": "Сергеевич"
+                                    }
+                                }
+                            ],
+                            "history": {
+                                "legalNames": [
+                                    {
+                                        "short": "МБУЗ \\"Приозерская ЦРБ\\"",
+                                        "full": "Муниципальное бюджетное учреждение здравоохранения \\"Приозерская центральная районная больница\\"",
+                                        "readable": "Муниципальное бюджетное учреждение здравоохранения \\"Приозерская центральная районная больница\\"",
+                                        "date": "2011-12-23"
+                                    },
+                                    {
+                                        "short": "МУЗ \\"Приозерская ЦРБ\\"",
+                                        "readable": "МУЗ \\"Приозерская ЦРБ\\""
+                                    },
+                                    {
+                                        "full": "Муниципальное учреждение здравоохранения \\"Приозерская центральная районная больница\\"",
+                                        "readable": "Муниципальное учреждение здравоохранения \\"Приозерская центральная районная больница\\""
+                                    }
+                                ],
+                                "legalAddresses": [
+                                    {
+                                        "parsedAddressRF": {
+                                            "zipCode": "188760",
+                                            "kladrCode": "470150010000024",
+                                            "regionCode": "47",
+                                            "regionName": {
+                                                "topoShortName": "обл.",
+                                                "topoFullName": "область",
+                                                "topoValue": "Ленинградская"
+                                            },
+                                            "city": {
+                                                "topoShortName": "г.",
+                                                "topoFullName": "город",
+                                                "topoValue": "Приозерск"
+                                            },
+                                            "street": {
+                                                "topoShortName": "ул.",
+                                                "topoFullName": "улица",
+                                                "topoValue": "Калинина"
+                                            },
+                                            "house": {
+                                                "topoShortName": "д.",
+                                                "topoFullName": "дом",
+                                                "topoValue": "35"
+                                            },
+                                            "houseRaw": "35",
+                                            "oneLineFormatOfAddress": "188760, Ленинградская область, г. Приозерск, ул. Калинина, д. 35"
+                                        },
+                                        "date": "2002-08-07",
+                                        "firstDate": "2002-08-07"
+                                    }
+                                ],
+                                "heads": [
+                                    {
+                                        "fio": "Корнилов Евгений Владимирович",
+                                        "innfl": "471204801172",
+                                        "position": "Главный врач",
+                                        "date": "2011-03-15",
+                                        "firstDate": "2011-03-15",
+                                        "structuredFio": {
+                                            "firstName": "Евгений",
+                                            "lastName": "Корнилов",
+                                            "middleName": "Владимирович"
+                                        }
+                                    },
+                                    {
+                                        "fio": "Хворова Мария Викторовна",
+                                        "innfl": "280112339422",
+                                        "position": "Исполняющая обязанности главного врача",
+                                        "date": "2019-03-27",
+                                        "firstDate": "2019-03-27",
+                                        "structuredFio": {
+                                            "firstName": "Мария",
+                                            "lastName": "Хворова",
+                                            "middleName": "Викторовна"
+                                        }
+                                    },
+                                    {
+                                        "fio": "Никифоренко Андрей Владимирович",
+                                        "innfl": "780229525953",
+                                        "position": "Исполняющий обязанности главного врача",
+                                        "date": "2019-05-08",
+                                        "firstDate": "2019-05-08",
+                                        "structuredFio": {
+                                            "firstName": "Андрей",
+                                            "lastName": "Никифоренко",
+                                            "middleName": "Владимирович"
+                                        }
+                                    },
+                                    {
+                                        "fio": "Замятнин Сергей Алексеевич",
+                                        "innfl": "782506079908",
+                                        "position": "Главный врач",
+                                        "date": "2021-08-12",
+                                        "firstDate": "2020-06-09",
+                                        "structuredFio": {
+                                            "firstName": "Сергей",
+                                            "lastName": "Замятнин",
+                                            "middleName": "Алексеевич"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "briefReport": {
+                            "summary": {
+                                "greenStatements": true,
+                                "yellowStatements": true
+                            }
+                        },
+                        "contactPhones": {
+                            "count": 10
+                        },
+                        "contactEmails": {}
+                    }
+                ]
+        """;
 
-            // Создаем основной объект
-            Map<String, Object> response = new HashMap<>();
-            response.put("inn", inn);
-            response.put("ogrn", ogrn);
-            response.put("focusHref", "https://focus.kontur.ru/entity?query=" + ogrn);
-
-            // Создаем вложенный объект UL
-            Map<String, Object> ul = new HashMap<>();
-
-            // Заполняем параметры UL
-            Map<String, Object> legalName = new HashMap<>();
-            legalName.put("short", "АО \"МГЦД\"");
-            legalName.put("full", "АКЦИОНЕРНОЕ ОБЩЕСТВО \"МОСКОВСКИЙ ГОРОДСКОЙ ЦЕНТР ДЕЗИНФЕКЦИИ\"");
-            legalName.put("readable", "АО \"Московский Городской Центр Дезинфекции\"");
-            legalName.put("date", "2024-10-01");
-
-            // Заполняем адрес
-            Map<String, Object> legalAddress = new HashMap<>();
-
-            Map<String, Object> parsedAddressRF = new HashMap<>();
-            // ... (остальные параметры адреса)
-
-            Map<String, Object> parsedAddressRFFias = new HashMap<>();
-            // ... (остальные параметры адреса)
-
-            legalAddress.put("parsedAddressRF", parsedAddressRF);
-            legalAddress.put("parsedAddressRFFias", parsedAddressRFFias);
-            legalAddress.put("date", "2024-10-01");
-            legalAddress.put("firstDate", "2024-10-01");
-
-            // Заполняем остальные параметры UL
-            ul.put("kpp", "771601001");
-            ul.put("okpo", "87748626");
-            ul.put("okato", "45280597000");
-            ul.put("okfs", "13");
-            ul.put("oktmo", "45365000000");
-            ul.put("okogu", "4210001");
-            ul.put("okopf", "12267");
-            ul.put("opf", "Непубличные акционерные общества");
-            ul.put("legalName", legalName);
-            ul.put("legalAddress", legalAddress);
-
-            // Статус
-            Map<String, String> status = new HashMap<>();
-            status.put("statusString", "Действующее");
-            ul.put("status", status);
-
-            // Дата регистрации
-            ul.put("registrationDate", "2024-10-01");
-
-            // Руководители
-            List<Map<String, Object>> heads = new ArrayList<>();
-            Map<String, Object> head = new HashMap<>();
-            // Заполняем данные руководителя
-            Map<String, String> structuredFio = new HashMap<>();
-            structuredFio.put("firstName", "Павел");
-            structuredFio.put("lastName", "Юнаков");
-            structuredFio.put("middleName", "Анатольевич");
-
-            head.put("fio", "Юнаков Павел Анатольевич");
-            head.put("innfl", "773377437940");
-            head.put("position", "Генеральный директор");
-            head.put("date", "2024-10-01");
-            head.put("firstDate", "2024-10-01");
-            head.put("structuredFio", structuredFio);
-            heads.add(head);
-            ul.put("heads", heads);
-
-// История
-            ul.put("history", new HashMap<>());
-
-// Добавляем UL в основной ответ
-            response.put("UL", ul);
-
-// briefReport
-            Map<String, Object> briefReport = new HashMap<>();
-            Map<String, Object> summary = new HashMap<>();
-            summary.put("greenStatements", true);
-            briefReport.put("summary", summary);
-            response.put("briefReport", briefReport);
-
-// contactPhones
-            Map<String, Object> contactPhones = new HashMap<>();
-            contactPhones.put("count", 10);
-            response.put("contactPhones", contactPhones);
-
-// contactEmails
-            Map<String, Object> contactEmails = new HashMap<>();
-            contactEmails.put("count", 3);
-            response.put("contactEmails", contactEmails);
-
-// Добавляем ответ в список
-            responseList.add(response);
-
-            return ResponseEntity.ok(responseList);
-
-        } catch (Exception e) {
-            // Создаем список для ошибки, чтобы соответствовать возвращаемому типу
-            List<Map<String, Object>> errorList = new ArrayList<>();
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Произошла ошибка при обработке запроса");
-            errorList.add(errorResponse);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorList);
-        }
+        return ResponseEntity.ok().body(jsonResponse);
     }
 }
