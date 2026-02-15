@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,13 +16,15 @@ public class OrdersBeneficiaryLetterController {
     @Value("${app.delay_OrdersBeneficiaryLetter:0}")
     private long delay_OrdersBeneficiaryLetter;
 
-    @GetMapping("/orders/019bd682-11d9-780b-bea9-57231fa2bec5/allGrouped?q=beneficiaryLetter")
-    public String delay_OrdersBeneficiaryLetter() {
+    // Шаблон URL: {orderId} — переменная часть пути
+    // Параметр q=beneficiaryLetter поддерживается автоматически
+    @GetMapping("/orders/{orderId}/allGrouped")
+    public String getBeneficiaryLetter(@PathVariable String orderId) {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_OrdersBeneficiaryLetter);
 
-            // Фиксированный JSON-ответ
+            // Фиксированный JSON-ответ — всегда пустой массив
             String jsonResponse = "[]";
 
             return jsonResponse;

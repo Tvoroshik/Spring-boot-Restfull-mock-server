@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,13 +16,15 @@ public class OrdersGuaranteeContractInLimitController {
     @Value("${app.delay_OrdersGuaranteeContractInLimit:0}")
     private long delay_OrdersGuaranteeContractInLimit;
 
-    @GetMapping("/orders/019bfe6d-f58b-76cf-bfc2-05139ce597f2?q=guaranteeContractInLimit")
-    public String OrdersGuaranteeContractInLimit() {
+    // Шаблон URL: {orderId} — переменная часть пути
+    // Параметр q=guaranteeContractInLimit поддерживается автоматически
+    @GetMapping("/orders/{orderId}")
+    public String OrdersGuaranteeContractInLimit(@PathVariable String orderId) {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_OrdersGuaranteeContractInLimit);
 
-            // Фиксированный JSON-ответ
+            // Фиксированный JSON-ответ — всегда пустой массив
             String jsonResponse = "[]";
 
             return jsonResponse;

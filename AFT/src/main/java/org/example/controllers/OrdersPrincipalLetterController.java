@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,9 +17,17 @@ public class OrdersPrincipalLetterController {
     @Value("${app.delay_OrdersPrincipalLetter:0}")
     private long delay_OrdersPrincipalLetter;
 
-    @GetMapping("/orders/019bd682-11d9-780b-bea9-57231fa2bec5/allGrouped?q=principalLetter")
-    public String OrdersPrincipalLetter() {
+    @GetMapping("/orders/{orderId}/allGrouped")
+    public String ordersPrincipalLetter(
+            @PathVariable String orderId,
+            @RequestParam(name = "q") String queryParam
+    ) {
         try {
+            // Проверяем, что параметр q равен "principalLetter"
+            if (!"principalLetter".equals(queryParam)) {
+                return "{\"error\": \"Invalid query parameter 'q'\"}";
+            }
+
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_OrdersPrincipalLetter);
 

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,13 +16,15 @@ public class OrdersBillGuaranteeLotController {
     @Value("${app.delay_OrdersBillGuaranteeLot:0}")
     private long delay_OrdersBillGuaranteeLot;
 
-    @GetMapping( "/orders/8190fe6d-f58b-76cf-bfc2-05139ce597427g-bill,guaranteeLot draft, guaranteelot, guaranteeContract, guaranteeContractinLimit,questionnaire, guarantorCompanyContract guarantorPersonContract")
-    public String OrdersBillGuaranteeLot() {
+    // Шаблон URL: {orderId} — переменная часть пути
+    // Параметры запроса (g-bill,guaranteeLotDraft,...) поддерживаются автоматически
+    @GetMapping("/orders/{orderId}")
+    public String OrdersBillGuaranteeLot(@PathVariable String orderId) {
         try {
             // Добавляем задержку (в миллисекундах)
             Thread.sleep(delay_OrdersBillGuaranteeLot);
 
-            // Фиксированный JSON-ответ
+            // Фиксированный JSON-ответ — всегда пустой массив
             String jsonResponse = "[]";
 
             return jsonResponse;

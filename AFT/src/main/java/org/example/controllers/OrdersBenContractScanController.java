@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,21 +17,36 @@ public class OrdersBenContractScanController {
     @Value("${app.delay_OrdersBenContractScan:0}")
     private long delay_OrdersBenContractScan;
 
-    @GetMapping("/orders/019bd682-11d9-780b-bea9-57231fa2bec5/allGrouped?q=benContractScan")
-    public String OrdersBenContractScan() {
+    /**
+     * Endpoint для получения данных по заказу.
+     * Принимает любой orderId и проверяет параметр q=benContractScan.
+     *
+     * Пример валидного запроса:
+     * GET /orders/12345/allGrouped?q=benContractScan
+     */
+    @GetMapping("/orders/{orderId}/allGrouped")
+    public String getOrdersBenContractScan(
+            @PathVariable("orderId") String orderId,
+            @RequestParam("q") String queryParam) {
+
         try {
-            // Добавляем задержку (в миллисекундах)
-            Thread.sleep(delay_OrdersBenContractScan);
+            // Проверяем значение параметра q
+            if (queryParam == null || !queryParam.equals("benContractScan")) {
+                return "{\"error\": \"Параметр q должен быть равен 'benContractScan'\"}";
+            }
 
-            // Фиксированный JSON-ответ
-            String jsonResponse = "[]";
+            // Имитируем задержку обработки
+            if (delay_OrdersBenContractScan > 0) {
+                Thread.sleep(delay_OrdersBenContractScan);
+            }
 
-            return jsonResponse;
+            // Возвращаем фиксированный JSON-ответ
+            return "[]";
 
         } catch (InterruptedException e) {
-            logger.error("Error processing request", e);
+            logger.error("Ошибка при обработке запроса", e);
             Thread.currentThread().interrupt();
-            return "{\"error\": \"Error processing request\"}";
+            return "{\"error\": \"Ошибка при обработке запроса\"}";
         }
     }
 }
