@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RequestController {
 
     @PostMapping(
-            value = "/req",
+            value = "/api/kontur-focus/req",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<String> handleRequest(
