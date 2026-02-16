@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>mockserver</artifactId>
-    <version>000-SNAPSHOT</version>
+    <version>001-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
