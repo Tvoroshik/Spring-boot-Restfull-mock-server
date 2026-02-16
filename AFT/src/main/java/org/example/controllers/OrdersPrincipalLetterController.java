@@ -17,7 +17,7 @@ public class OrdersPrincipalLetterController {
     @Value("${app.delay_OrdersPrincipalLetter:0}")
     private long delay_OrdersPrincipalLetter;
 
-    @GetMapping("/orders/{orderId}/allGrouped")
+    @GetMapping("/orders/{orderId}/allGrouped?q=benContractScan%2CbeneficiaryLetter%2CprincipalLetter")
     public String ordersPrincipalLetter(
             @PathVariable String orderId,
             @RequestParam(name = "q") String queryParam
