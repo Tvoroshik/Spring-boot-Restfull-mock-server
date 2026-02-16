@@ -16,7 +16,7 @@ public class OrdersController {
     @Value("${app.delay_Orders:0}")
     private long delay_Orders;
 
-    @GetMapping("/orders/{orderId}/**")
+    @GetMapping("/docapi/orders/{orderId}/**")
     public ResponseEntity<String> orders(@PathVariable String orderId) {  // ← исправлено!
         try {
             if (delay_Orders > 0) {
