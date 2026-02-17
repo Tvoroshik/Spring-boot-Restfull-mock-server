@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>mockserver</artifactId>
-    <version>0012-SNAPSHOT</version>
+    <version>0013-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -33,6 +33,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
 
         <!-- Логирование -->
