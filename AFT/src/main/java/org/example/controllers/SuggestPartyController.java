@@ -3,11 +3,10 @@ package org.example.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SuggestPartyController {
@@ -18,25 +17,118 @@ public class SuggestPartyController {
     private long suggest_party_delay;
 
     @GetMapping("/api/common/autocomplete/company")
-    public String suggest_party() {
+    public ResponseEntity<String> suggest_party(
+            @RequestParam(required = true) String q) {
+
         try {
-            // Добавляем задержку (в миллисекундах)
-            Thread.sleep(suggest_party_delay);
+            // Задержка, если настроена
+            if (suggest_party_delay > 0) {
+                Thread.sleep(suggest_party_delay);
+            }
+
+            String jsonResponse = "";
+
+            if ("000".equals(q)) {
+                jsonResponse = "{\n" +
+                               "\n" +
+                               "    \"other\": [\n" +
+                               "\n" +
+                               "        {\n" +
+                               "\n" +
+                               "            \"companyTypeRefId\": \"legalentity\",\n" +
+                               "\n" +
+                               "            \"displayName\": \"ООО \\\"ЭВОТРЕЙД\\\"\",\n" +
+                               "\n" +
+                               "            \"fullName\": \"ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \\\"ЭВОТРЕЙД\\\"\",\n" +
+                               "\n" +
+                               "            \"shortName\": \"ООО \\\"ЭВОТРЕЙД\\\"\",\n" +
+                               "\n" +
+                               "            \"inn\": \"7839095581\",\n" +
+                               "\n" +
+                               "            \"ogrn\": \"1177847411356\",\n" +
+                               "\n" +
+                               "            \"kpp\": \"783901001\",\n" +
+                               "\n" +
+                               "            \"address\": {\n" +
+                               "\n" +
+                               "                \"value\": \"190005, Г.САНКТ-ПЕТЕРБУРГ, ВН.ТЕР.Г. МУНИЦИПАЛЬНЫЙ ОКРУГ ИЗМАЙЛОВСКОЕ, НАБ ОБВОДНОГО КАНАЛА, Д. 118А, ЛИТЕРА Б, ПОМЕЩ. 2Н, 3Н, 4Н, ОФИС 544, 549\"\n" +
+                               "\n" +
+                               "            }\n" +
+                               "\n" +
+                               "        }\n" +
+                               "\n" +
+                               "    ],\n" +
+                               "\n" +
+                               "    \"error_code\": 0\n" +
+                               "\n" +
+                               "}";
+            } else if ("111".equals(q)) {
+                jsonResponse = "{\n" +
+                               "\n" +
+                               "    \"other\": [\n" +
+                               "\n" +
+                               "      {\n" +
+                               "\n" +
+                               "            \"companyTypeRefId\": \"legalentity\",\n" +
+                               "\n" +
+                               "            \"displayName\": \"ГБУЗ ЛО \\\"ПРИОЗЕРСКАЯ МБ\\\"\",\n" +
+                               "\n" +
+                               "            \"fullName\": \"ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ ЛЕНИНГРАДСКОЙ ОБЛАСТИ \\\"ПРИОЗЕРСКАЯ МЕЖРАЙОННАЯ БОЛЬНИЦА\\\"\",\n" +
+                               "\n" +
+                               "            \"shortName\": \"ГБУЗ ЛО \\\"ПРИОЗЕРСКАЯ МБ\\\"\",\n" +
+                               "\n" +
+                               "            \"inn\": \"4712017259\",\n" +
+                               "\n" +
+                               "            \"ogrn\": \"1024701646243\",\n" +
+                               "\n" +
+                               "            \"kpp\": \"471201001\",\n" +
+                               "\n" +
+                               "            \"address\": {\n" +
+                               "\n" +
+                               "                \"value\": \"Ленинградская обл, г Приозерск, ул Калинина, д 35\"\n" +
+                               "\n" +
+                               "            }\n" +
+                               "\n" +
+                               "        }\n" +
+                               "\n" +
+                               "    ],\n" +
+                               "\n" +
+                               "    \"error_code\": 0\n" +
+                               "\n" +
+                               "}";
+            }
 
 
-//            "            \"value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
-//                    "            \"unrestricted_value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
-//            "                \"inn\": \"6443021579\",\r\n" +
-//                    "                \"ogrn\": \"1146449000114\",\r\n" +
-//                    \"kpp\": \"644301001\",\r\n" +
-//                    \"name\": {\r\n" +
-//                    "                    \"full_with_opf\": \"ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \\\"ТЕХНО-М\\\"\",\r\n" +
-//                    "                    \"short_with_opf\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
-//                    "                    \"full\": \"ТЕХНО-М\",\r\n" +
-//                    "                    \"short\": \"ТЕХНО-М\"\r\n" +
-//                    "                },\r\n" +
+            return ResponseEntity.ok(jsonResponse);
 
-            // Фиксированный JSON-ответ
+        } catch (InterruptedException e) {
+            logger.error("Запрос прерван", e);
+            Thread.currentThread().interrupt();
+            return ResponseEntity
+                    .status(500)
+                    .body("{\"error\":\"Запрос был прерван\"}");
+        } catch (Exception e) {
+            logger.error("Ошибка обработки запроса", e);
+            return ResponseEntity
+                    .status(500)
+                    .body("{\"error\":\"Произошла внутренняя ошибка\"}");
+        }
+    }
+}
+
+
+/*
+            "            \"value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
+                    "            \"unrestricted_value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
+            "                \"inn\": \"6443021579\",\r\n" +
+                    "                \"ogrn\": \"1146449000114\",\r\n" +
+                    \"kpp\": \"644301001\",\r\n" +
+                    \"name\": {\r\n" +
+                    "                    \"full_with_opf\": \"ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \\\"ТЕХНО-М\\\"\",\r\n" +
+                    "                    \"short_with_opf\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
+                    "                    \"full\": \"ТЕХНО-М\",\r\n" +
+                    "                    \"short\": \"ТЕХНО-М\"\r\n" +
+                    "                },\r\n" +
             String jsonResponse = "{\n" +
                                   "       \"other\": [\n" +
                                   "           {\n" +
@@ -67,82 +159,81 @@ public class SuggestPartyController {
                                   "       \"error_code\": 0\n" +
                                   "   }\n";
 
-//                    "{\"suggestions\": [\r\n" +
-//                            "        {\r\n" +
-//                            "            \"value\": \"ООО \"ТЕХНО-М\"\",\r\n" +
-//                            "            \"unrestricted_value\": \"ООО \"ТЕХНО-М\"\",\r\n" +
-//                            "            \"data\": {\r\n" +
-//                            "                \"kpp\": \"644301001\",\r\n" +
-//                            "                \"inn\": \"6443021579\",\r\n" +
-//                            "                \"ogrn\": \"1146449000114\",\r\n" +
-//                             "\"name\": {\r\n" +
-//                            "                    \"full_with_opf\": \"ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \\\"ТЕХНО-М\\\"\",\r\n" +
-//                            "                    \"short_with_opf\": \"ООО \"ТЕХНО-М\"\",\r\n" +
-//                            "                    \"full\": \"ТЕХНО-М\",\r\n" +
-//                            "                    \"short\": \"ТЕХНО-М\"\r\n" +
-//                            "                }\r\n" +
-//                            "        ]\r\n" +
-//                    "}";
-
-            return jsonResponse;
-
-        } catch (InterruptedException e) {
-            logger.error("Error processing request", e);
-            Thread.currentThread().interrupt();
-            return "{\"error\": \"Error processing request\"}";
-        }
-    }
-}
-
-
-//    @PostMapping(value = "/suggest-party", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> suggestParty(@RequestBody String requestBody) {
-//        try {
-//            // Добавляем задержку
-//            Thread.sleep(suggest_party_delay);
-//        } catch (InterruptedException e) {
-//            logger.warn("Задержка прервана", e);
-//            Thread.currentThread().interrupt();
-//        }
-//
-//        // Проверяем содержимое запроса
-//        if (requestBody.contains("\"q\":\"000\"")) {
-//            String jsonResponse = "{\"suggestions\": [\r\n" +
-//                    "        {\r\n" +
-//                    "            \"value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
-//                    "            \"unrestricted_value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
-//                    "            \"data\": {\r\n" +
-//                    "                \"kpp\": \"644301001\",\r\n" +
-//                    "                \"kpp_largest\": null,\r\n" +
-//                    "                \"capital\": null,\r\n" +
-//                    "                \"invalid\": null,\r\n" +
-//                    "                \"management\": {\r\n" +
-//                    "                    \"name\": \"Яковлев Андрей Александрович\",\r\n" +
-//                    "                    \"post\": \"ДИРЕКТОР\",\r\n" +
-//                    "                    \"start_date\": 1757019600000,\r\n" +
-//                    "                    \"disqualified\": null\r\n" +
-//                    "                },\r\n" +
-//                    "                \"founders\": null,\r\n" +
-//                    "                \"managers\": null,\r\n" +
-//                    "                \"predecessors\": null,\r\n" +
-//                    "                \"successors\": null,\r\n" +
-//                    "                \"branch_type\": \"MAIN\",\r\n" +
-//                    "                \"branch_count\": 0,\r\n" +
-//                    "                \"source\": null,\r\n" +
-//                    "                \"qc\": null,\r\n" +
-//                    "                \"hid\": \"bdc090afc80b520607e4ccd11e795368e242590bb61a44068f3a473edf7f9753\",\r\n" +
-//                    "                \"type\": \"LEGAL\",\r\n" +
-//                    "                \"state\": {\r\n" +
-//                    "                    \"status\": \"ACTIVE\",\r\n" +
-//                    "                    \"code\": null,\r\n" +
-//                    "                    \"actuality_date\": 1757030400000,\r\n" +
-//                    "                    \"registration_date\": 1389916800000,\r\n" +
-//                    "                    \"liquidation_date\": null\r\n" +
-//                    "                },\r\n" +
-//                    "                \"opf\": {\r\n" +
-//                    "                    \"type\": \"2014\",\r\n" +
-//                    "                    \"code\": \"12300\",\r\n" +
-//                    "                    \"full\": \"Общество с ограниченной ответственностью\",\r\n" +
+*//*
+////                    "{\"suggestions\": [\r\n" +
+////                            "        {\r\n" +
+////                            "            \"value\": \"ООО \"ТЕХНО-М\"\",\r\n" +
+////                            "            \"unrestricted_value\": \"ООО \"ТЕХНО-М\"\",\r\n" +
+////                            "            \"data\": {\r\n" +
+////                            "                \"kpp\": \"644301001\",\r\n" +
+////                            "                \"inn\": \"6443021579\",\r\n" +
+////                            "                \"ogrn\": \"1146449000114\",\r\n" +
+////                             "\"name\": {\r\n" +
+////                            "                    \"full_with_opf\": \"ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \\\"ТЕХНО-М\\\"\",\r\n" +
+////                            "                    \"short_with_opf\": \"ООО \"ТЕХНО-М\"\",\r\n" +
+////                            "                    \"full\": \"ТЕХНО-М\",\r\n" +
+////                            "                    \"short\": \"ТЕХНО-М\"\r\n" +
+////                            "                }\r\n" +
+////                            "        ]\r\n" +
+////                    "}";
+////            return jsonResponse;
+////
+////        } catch (InterruptedException e) {
+////            logger.error("Error processing request", e);
+////            Thread.currentThread().interrupt();
+////            return "{\"error\": \"Error processing request\"}";
+////        }
+////    }
+////}
+////
+////    @PostMapping(value = "/suggest-party", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+////    public ResponseEntity<String> suggestParty(@RequestBody String requestBody) {
+////        try {
+////            // Добавляем задержку
+////            Thread.sleep(suggest_party_delay);
+////        } catch (InterruptedException e) {
+////            logger.warn("Задержка прервана", e);
+////            Thread.currentThread().interrupt();
+////        }
+////
+////        // Проверяем содержимое запроса
+////        if (requestBody.contains("\"q\":\"000\"")) {
+////            String jsonResponse = "{\"suggestions\": [\r\n" +
+////                    "        {\r\n" +
+////                    "            \"value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
+////                    "            \"unrestricted_value\": \"ООО \\\"ТЕХНО-М\\\"\",\r\n" +
+////                    "            \"data\": {\r\n" +
+////                    "                \"kpp\": \"644301001\",\r\n" +
+////                    "                \"kpp_largest\": null,\r\n" +
+////                    "                \"capital\": null,\r\n" +
+////                    "                \"invalid\": null,\r\n" +
+////                    "                \"management\": {\r\n" +
+////                    "                    \"name\": \"Яковлев Андрей Александрович\",\r\n" +
+////                    "                    \"post\": \"ДИРЕКТОР\",\r\n" +
+////                    "                    \"start_date\": 1757019600000,\r\n" +
+////                    "                    \"disqualified\": null\r\n" +
+////                    "                },\r\n" +
+////                    "                \"founders\": null,\r\n" +
+////                    "                \"managers\": null,\r\n" +
+////                    "                \"predecessors\": null,\r\n" +
+////                    "                \"successors\": null,\r\n" +
+////                    "                \"branch_type\": \"MAIN\",\r\n" +
+////                    "                \"branch_count\": 0,\r\n" +
+////                    "                \"source\": null,\r\n" +
+////                    "                \"qc\": null,\r\n" +
+////                    "                \"hid\": \"bdc090afc80b520607e4ccd11e795368e242590bb61a44068f3a473edf7f9753\",\r\n" +
+////                    "                \"type\": \"LEGAL\",\r\n" +
+////                    "                \"state\": {\r\n" +
+////                    "                    \"status\": \"ACTIVE\",\r\n" +
+////                    "                    \"code\": null,\r\n" +
+////                    "                    \"actuality_date\": 1757030400000,\r\n" +
+////                    "                    \"registration_date\": 1389916800000,\r\n" +
+////                    "                    \"liquidation_date\": null\r\n" +
+////                    "                },\r\n" +
+////                    "                \"opf\": {\r\n" +
+////                    "                    \"type\": \"2014\",\r\n" +
+////                    "                    \"code\": \"12300\",\r\n" +
+////                    "                    \"full\": \"Общество с ограниченной ответственностью\",\r\n" +
 //                    "                    \"short\": \"ООО\"\r\n" +
 //                    "                },\r\n" +
 //                    "                \"name\": {\r\n" +
@@ -1219,3 +1310,4 @@ public class SuggestPartyController {
 //        }
 //    }
 //}
+*/
